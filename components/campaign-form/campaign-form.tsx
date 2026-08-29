@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Sparkles } from "lucide-react";
+import { Maximize2, Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Card } from "@/components/ui/card";
@@ -24,6 +24,8 @@ export function CampaignForm() {
 	const config = useDraftStore((s) => s.config);
 	const mergeConfig = useDraftStore((s) => s.mergeConfig);
 	const estimate = useDraftStore((s) => s.estimate);
+	const previewCollapsed = useDraftStore((s) => s.previewCollapsed);
+	const togglePreviewCollapsed = useDraftStore((s) => s.togglePreviewCollapsed);
 
 	const form = useForm<CampaignConfig>({
 		resolver: zodResolver(CampaignConfigSchema) as never,
@@ -76,6 +78,16 @@ export function CampaignForm() {
 						<Sparkles className="h-4 w-4 text-primary" />
 						<h2 className="text-sm font-semibold">Campaign Configuration</h2>
 					</div>
+					{previewCollapsed && (
+						<button
+							type="button"
+							onClick={togglePreviewCollapsed}
+							className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-text-muted hover:text-text-primary hover:bg-bg-card-hover transition-colors"
+						>
+							<Maximize2 className="h-3.5 w-3.5" />
+							Preview
+						</button>
+					)}
 				</div>
 
 				<div className="flex-1 overflow-y-auto p-4 space-y-6">

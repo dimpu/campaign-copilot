@@ -107,7 +107,6 @@ export function ChatPanel({
 	const processedDataCount = useRef(0);
 	const processedToolCallIds = useRef(new Set<string>());
 
-	const _config = useDraftStore((s) => s.config);
 	const stage = useDraftStore((s) => s.stage);
 	const mergeConfig = useDraftStore((s) => s.mergeConfig);
 	const setStage = useDraftStore((s) => s.setStage);

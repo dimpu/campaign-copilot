@@ -6,11 +6,7 @@
 
 ## 1. Problem Statement
 
-Operations teams at TikTok Shop spend 15–30 minutes filling complex, multi-conditional forms to create
-affiliate creator campaigns (tasks, competitions, commission boosts). Every field has conditional logic based
-on task type, region, seller type, and reward structure. New ops members need weeks of training.
-Misconfigurations (budget too small, wrong region-language pairing, missing Starling keys) are common and
-caught late.
+Operations teams at TikTok Shop spend 15–30 minutes filling complex, multi-conditional forms to create affiliate creator campaigns (tasks, competitions, commission boosts). Every field has conditional logic based on task type, region, seller type, and reward structure. New ops members need weeks of training. Misconfigurations (budget too small, wrong region-language pairing, missing Starling keys) are common and caught late.
 
 **What if you could just describe the campaign in plain English and get a complete, validated configuration + multi-language copy + budget estimate in 30 seconds?**
 
@@ -23,9 +19,9 @@ Creator Campaign Copilot is an AI-powered web app where ops staff:
 1. **Describe** a campaign in natural language (chat interface)
 2. **Get** a fully structured campaign configuration auto-filled by an LLM
 3. **See** creator-facing marketing copy auto-generated in all target languages
-4. **Review** a budget/reach/ROI simulation against a mock creator database
-5. **Edit** either via follow-up chat prompts or directly in a traditional form (side-by-side)
-6. **Publish** the campaign with one click
+4.s **Review** a budget/reach/ROI simulation against a mock creator database
+4. **Edit** either via follow-up chat prompts or directly in a traditional form (side-by-side)
+5. **Publish** the campaign with one click
 
 The signature UX is a **split-pane layout**: AI chat on the left, live form on the right. Changes in either pane instantly sync to the other.
 
@@ -34,7 +30,7 @@ The signature UX is a **split-pane layout**: AI chat on the left, live form on t
 ## 3. Tech Stack
 
 | Layer | Choice | Why |
-| --- | --- | --- |
+|---|---|---|
 | **Framework** | Next.js 15 (App Router) + React 19 + TypeScript | Single deploy target, Server Components for list/detail pages, Route Handlers for API. No CORS, shared types by default. |
 | **UI** | shadcn/ui + Radix + Tailwind CSS v4 + lucide-react | Copy-paste components, infinite visual flexibility, fast iteration. |
 | **Charts** | recharts | Simple API, React 19 compatible. |
@@ -56,7 +52,11 @@ The signature UX is a **split-pane layout**: AI chat on the left, live form on t
 
 ## 4. Architecture
 
-```text
+```
+┌───────────────────────────────────────────────────────────────┐
+│                    BROWSER (Next.js client)                    │
+│                                                               │
+│  /campaigns/new  ┌──────────────┬──────────────────────┐      │
 ┌───────────────────────────────────────────────────────────────┐
 │                    BROWSER (Next.js client)                    │
 │                                                               │
@@ -835,13 +835,6 @@ campaign-copilot/
 | ⌘K command palette | 3h | Power-user feel | P1 |
 | Campaign template library ("Flash Sale", "New Product Launch", "Creator Retention") | 4h | Reduces repetitive briefs | P1 |
 | Side-by-side copy diff (before/after when regenerating) | 3h | Trust in AI edits | P2 |
-| Export campaign config as JSON / PDF brief | 2h | Sharing with stakeholders | P2 |
-| Voice input (Web Speech API) | 4h | Demo wow, not practical | P3 |
-| Real-time collaboration cursor (yjs) | 8h | Overkill for hack | P4 |
-
----
-
-## 18. UX Polish Details (for community vote)
 
 - **Dark mode** with TikTok Shop purple-pink gradient accents (`#6938FF` → `#FE2C55`)
 - **Loading skeletons** on every list/dashboard load

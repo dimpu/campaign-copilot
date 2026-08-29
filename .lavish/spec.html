@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaign Copilot — Technical Specification</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    :where(.grid,.flex)>*{min-width:0}
+    :where(p,h1,h2,h3,li,td,th,.badge,.label){overflow-wrap:anywhere}
+    :root{--p:#6938ff;--pk:#fe2c55;--bg:#0a0a0f;--card:#14141f;--card2:#1a1a2e;--bdr:#2a2a3a;--t1:#fff;--t2:#9ca3af;--t3:#6b7280;--ok:#22c55e;--warn:#f59e0b;--err:#ef4444;--info:#3b82f6}
+    html,body{background:var(--bg);color:var(--t1);font-family:Inter,system-ui,sans-serif;margin:0}
+    .c{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem}
+    .c:hover{background:var(--card2)}
+    .gp{background:linear-gradient(135deg,var(--p),var(--pk))}
+    .gt{background:linear-gradient(135deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .b{border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:600;display:inline-block}
+    .bp{background:rgba(105,56,255,.15);color:#8b6bff;border:1px solid rgba(105,56,255,.3)}
+    .bk{background:rgba(254,44,85,.15);color:#ff5c7a;border:1px solid rgba(254,44,85,.3)}
+    .bo{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+    .bw{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+    .bi{background:rgba(59,130,246,.15);color:#3b82f6;border:1px solid rgba(59,130,246,.3)}
+    .be{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+    .sd{height:1px;background:linear-gradient(90deg,transparent,var(--bdr),transparent);margin:2.5rem 0}
+    code{background:rgba(105,56,255,.12);color:#8b6bff;padding:1px 6px;border-radius:4px;font-size:.85em}
+    table{width:100%;border-collapse:collapse}
+    th{text-align:left;padding:.4rem .6rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--t3);border-bottom:1px solid var(--bdr)}
+    td{padding:.4rem .6rem;font-size:.82rem;color:var(--t2);border-bottom:1px solid rgba(42,42,58,.4)}
+    td:first-child{color:var(--t1);font-weight:500}
+    .nav a{color:var(--t3);text-decoration:none;font-size:.78rem;padding:3px 0;display:block;transition:color .15s}
+    .nav a:hover{color:var(--t1)}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+    .gl{border-left:3px solid var(--p)}.glk{border-left:3px solid var(--pk)}.glo{border-left:3px solid var(--ok)}.glw{border-left:3px solid var(--warn)}.gli{border-left:3px solid var(--info)}.gle{border-left:3px solid var(--err)}
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="gp" style="padding:2.5rem 2rem;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><pattern id=%22g%22 width=%2210%22 height=%2210%22 patternUnits=%22userSpaceOnUse%22><circle cx=%225%22 cy=%225%22 r=%220.4%22 fill=%22rgba(255,255,255,0.07)%22/></pattern></defs><rect fill=%22url(%23g)%22 width=%22100%22 height=%22100%22/></svg>');opacity:.5"></div>
+  <div style="max-width:960px;margin:0 auto;position:relative;z-index:1">
+    <div style="display:flex;gap:8px;margin-bottom:.75rem;flex-wrap:wrap">
+      <span class="b bp">GEC-B Demo Day</span>
+      <span class="b bk">Deadline: Sept 7, 2025</span>
+      <span class="b bo">Solo Project</span>
+    </div>
+    <h1 style="font-size:2.5rem;font-weight:900;margin:0;line-height:1.1">Creator Campaign Copilot</h1>
+    <p style="font-size:1.05rem;margin-top:.6rem;opacity:.88;max-width:620px;line-height:1.6">
+      Describe a campaign in plain English → validated config + multi-language copy + budget simulation in 30 seconds.
+    </p>
+  </div>
+</div>
+
+<div style="display:flex;max-width:1200px;margin:0 auto;padding:2rem 1.5rem;gap:2rem">
+
+<!-- NAV -->
+<nav class="nav" style="width:170px;flex-shrink:0;position:sticky;top:2rem;align-self:flex-start">
+  <a href="#problem">Problem</a><a href="#product">Product</a><a href="#arch">Architecture</a><a href="#stack">Tech Stack</a><a href="#data">Data Model</a><a href="#schema">Config Schema</a><a href="#ai">AI Design</a><a href="#valid">Validation</a><a href="#sim">Simulator</a><a href="#fe">Frontend</a><a href="#mile">Milestones</a><a href="#demo">Demo Script</a><a href="#stretch">Stretch</a>
+</nav>
+
+<!-- CONTENT -->
+<main style="flex:1;min-width:0">
+
+<!-- PROBLEM -->
+<section id="problem" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--err)">⚡</span> Problem Statement</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem">
+    <div class="c" style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--err)">15–30m</div><div style="font-size:.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">Time per campaign form</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--warn)">Weeks</div><div style="font-size:.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">Training for new ops</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.8rem;font-weight:800;color:var(--info)">Late</div><div style="font-size:.72rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">Misconfig catch timing</div></div>
+  </div>
+  <div class="c" style="margin-top:.75rem"><p style="color:var(--t2);line-height:1.7;margin:0;font-size:.88rem">Ops teams at TikTok Shop spend 15–30 minutes filling complex, multi-conditional forms to create affiliate creator campaigns. Every field has conditional logic based on task type, region, seller type, and reward structure. Misconfigurations are common and caught late.</p></div>
+</section>
+
+<div class="sd"></div>
+
+<!-- PRODUCT -->
+<section id="product" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--p)">🎯</span> Product Overview</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem">
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">💬</div><div style="font-weight:700;font-size:.85rem">Describe</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">Plain English in chat</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">⚙️</div><div style="font-weight:700;font-size:.85rem">Configure</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">Auto-filled by LLM</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">🌐</div><div style="font-weight:700;font-size:.85rem">Copy</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">Multi-language gen</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">📊</div><div style="font-weight:700;font-size:.85rem">Simulate</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">Budget/reach/ROI</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">✏️</div><div style="font-weight:700;font-size:.85rem">Edit</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">Chat or form, synced</div></div>
+    <div class="c" style="text-align:center"><div style="font-size:1.3rem">🚀</div><div style="font-weight:700;font-size:.85rem">Publish</div><div style="color:var(--t3);font-size:.72rem;margin-top:2px">One click + confetti</div></div>
+  </div>
+  <div class="c gl" style="margin-top:.75rem"><div style="font-weight:700;font-size:.82rem;color:#8b6bff;margin-bottom:.2rem">Signature UX</div><p style="color:var(--t2);font-size:.85rem;margin:0;line-height:1.5"><strong style="color:var(--t1)">Split-pane layout</strong> — AI chat on the left, live campaign form on the right. Changes in either pane instantly sync to the other.</p></div>
+</section>
+
+<div class="sd"></div>
+
+<!-- ARCHITECTURE -->
+<section id="arch" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--info)">🏗️</span> Architecture</h2>
+  <div class="c" style="padding:1.25rem;overflow-x:auto">
+    <svg viewBox="0 0 800 460" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif">
+      <rect x="10" y="10" width="780" height="180" rx="12" fill="none" stroke="#2a2a3a" stroke-width="1.5" stroke-dasharray="6 3"/>
+      <text x="30" y="32" fill="#6b7280" font-size="11" font-weight="600">BROWSER (Next.js Client)</text>
+      <rect x="30" y="50" width="340" height="120" rx="8" fill="#14141f" stroke="#6938ff" stroke-width="1.5"/>
+      <text x="50" y="72" fill="#8b6bff" font-size="12" font-weight="700">💬 ChatPanel</text>
+      <text x="50" y="90" fill="#9ca3af" font-size="10">useChat (SSE)</text>
+      <text x="50" y="106" fill="#6b7280" font-size="9">• Stage progress strip • Reasoning trace</text>
+      <text x="50" y="120" fill="#6b7280" font-size="9">• Inline cards (issues, estimate, copy)</text>
+      <text x="50" y="134" fill="#6b7280" font-size="9">• Quick-prompt chips</text>
+      <rect x="420" y="50" width="350" height="120" rx="8" fill="#14141f" stroke="#fe2c55" stroke-width="1.5"/>
+      <text x="440" y="72" fill="#ff5c7a" font-size="12" font-weight="700">📝 CampaignForm</text>
+      <text x="440" y="90" fill="#9ca3af" font-size="10">react-hook-form + Zod</text>
+      <text x="440" y="106" fill="#6b7280" font-size="9">• Diff-highlight flash on AI edits</text>
+      <text x="440" y="120" fill="#6b7280" font-size="9">• Live Estimate card (sticky rail)</text>
+      <text x="440" y="134" fill="#6b7280" font-size="9">• Sections: Basics, Eligibility, Reward…</text>
+      <line x1="370" y1="105" x2="420" y2="105" stroke="#6938ff" stroke-width="1.5" marker-end="url(#ap)"/>
+      <line x1="420" y1="115" x2="370" y2="115" stroke="#fe2c55" stroke-width="1.5" marker-end="url(#ak)"/>
+      <text x="395" y="100" fill="#9ca3af" font-size="8" text-anchor="middle">Zustand</text>
+      <text x="395" y="128" fill="#9ca3af" font-size="8" text-anchor="middle">draft store</text>
+      <rect x="10" y="210" width="780" height="230" rx="12" fill="none" stroke="#2a2a3a" stroke-width="1.5" stroke-dasharray="6 3"/>
+      <text x="30" y="232" fill="#6b7280" font-size="11" font-weight="600">NEXT.JS SERVER (Node)</text>
+      <line x1="200" y1="175" x2="200" y2="250" stroke="#6938ff" stroke-width="1.5" marker-end="url(#ap)"/>
+      <text x="212" y="215" fill="#8b6bff" font-size="9">SSE</text>
+      <line x1="595" y1="250" x2="595" y2="175" stroke="#fe2c55" stroke-width="1.5" marker-end="url(#ak)"/>
+      <text x="607" y="215" fill="#ff5c7a" font-size="9">Server Action</text>
+      <rect x="30" y="250" width="360" height="170" rx="8" fill="#1a1a2e" stroke="#6938ff" stroke-width="2"/>
+      <text x="50" y="272" fill="#8b6bff" font-size="13" font-weight="700">🤖 CopilotAgent</text>
+      <text x="50" y="290" fill="#9ca3af" font-size="10">streamText(maxSteps: 8, tools)</text>
+      <rect x="50" y="300" width="155" height="26" rx="4" fill="rgba(105,56,255,.15)" stroke="rgba(105,56,255,.4)"/>
+      <text x="60" y="317" fill="#8b6bff" font-size="9.5">set_config</text><text x="140" y="317" fill="#6b7280" font-size="8">merge+validate</text>
+      <rect x="215" y="300" width="155" height="26" rx="4" fill="rgba(105,56,255,.15)" stroke="rgba(105,56,255,.4)"/>
+      <text x="225" y="317" fill="#8b6bff" font-size="9.5">run_validation</text><text x="318" y="317" fill="#6b7280" font-size="8">deterministic</text>
+      <rect x="50" y="334" width="155" height="26" rx="4" fill="rgba(254,44,85,.15)" stroke="rgba(254,44,85,.4)"/>
+      <text x="60" y="351" fill="#ff5c7a" font-size="9.5">generate_copy</text><text x="153" y="351" fill="#6b7280" font-size="8">LLM gen</text>
+      <rect x="215" y="334" width="155" height="26" rx="4" fill="rgba(254,44,85,.15)" stroke="rgba(254,44,85,.4)"/>
+      <text x="225" y="351" fill="#ff5c7a" font-size="9.5">run_simulation</text><text x="326" y="351" fill="#6b7280" font-size="8">SQL+math</text>
+      <rect x="132" y="368" width="155" height="26" rx="4" fill="rgba(34,197,94,.15)" stroke="rgba(34,197,94,.4)"/>
+      <text x="142" y="385" fill="#22c55e" font-size="9.5">ask_user</text><text x="210" y="385" fill="#6b7280" font-size="8">clarification</text>
+      <rect x="420" y="250" width="170" height="55" rx="8" fill="#14141f" stroke="#2a2a3a"/>
+      <text x="440" y="272" fill="#9ca3af" font-size="11" font-weight="600">/api/campaigns</text>
+      <text x="440" y="288" fill="#6b7280" font-size="9">CRUD + publish + simulate</text>
+      <rect x="610" y="250" width="150" height="55" rx="8" fill="#14141f" stroke="#2a2a3a"/>
+      <text x="630" y="272" fill="#9ca3af" font-size="11" font-weight="600">/api/auth</text>
+      <text x="630" y="288" fill="#6b7280" font-size="9">Auth.js (email+OTP)</text>
+      <rect x="420" y="340" width="170" height="70" rx="8" fill="#14141f" stroke="#22c55e"/>
+      <text x="440" y="362" fill="#22c55e" font-size="11" font-weight="600">Drizzle (libSQL)</text>
+      <text x="440" y="380" fill="#6b7280" font-size="9">local.db · 20k creators</text>
+      <rect x="610" y="340" width="150" height="70" rx="8" fill="#14141f" stroke="#f59e0b"/>
+      <text x="630" y="362" fill="#f59e0b" font-size="11" font-weight="600">AI Provider</text>
+      <text x="630" y="380" fill="#6b7280" font-size="9">OpenAI + mock fallback</text>
+      <defs><marker id="ap" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#6938ff"/></marker><marker id="ak" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#fe2c55"/></marker></defs>
+    </svg>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.75rem;margin-top:.75rem">
+    <div class="c gl"><div style="font-weight:700;font-size:.82rem;color:#8b6bff">One Zod Schema SSoT</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0">CampaignConfigSchema drives LLM output, form, DB, and publish validation.</p></div>
+    <div class="c glk"><div style="font-weight:700;font-size:.82rem;color:#ff5c7a">Chat & Form → One Store</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0">AI streams patches; form edits directly. Changes sync bidirectionally.</p></div>
+    <div class="c glo"><div style="font-weight:700;font-size:.82rem;color:#22c55e">Deterministic Where Possible</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0">Budget & eligibility = code. LLM = understanding + copy.</p></div>
+    <div class="c glw"><div style="font-weight:700;font-size:.82rem;color:#f59e0b">Mock LLM Must Always Work</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0">Offline canned responses keep the demo alive.</p></div>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- TECH STACK -->
+<section id="stack" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--p)">🧱</span> Tech Stack</h2>
+  <div class="c" style="overflow-x:auto">
+    <table><thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead><tbody>
+      <tr><td>Framework</td><td><code>Next.js 15</code> App Router + React 19</td><td>Single deploy, shared types</td></tr>
+      <tr><td>UI</td><td><code>shadcn/ui</code> + Radix + Tailwind v4</td><td>Copy-paste components</td></tr>
+      <tr><td>State</td><td><code>Zustand</code> + useActionState</td><td>Minimal client state</td></tr>
+      <tr><td>Forms</td><td><code>react-hook-form</code> + Zod</td><td>Uncontrolled = fast</td></tr>
+      <tr><td>Database</td><td><code>libSQL</code> → PostgreSQL</td><td>Zero infra to start</td></tr>
+      <tr><td>ORM</td><td><code>Drizzle</code></td><td>Type-safe, great SQLite</td></tr>
+      <tr><td>Validation</td><td><code>Zod 3.x</code></td><td>SSoT across all layers</td></tr>
+      <tr><td>AI</td><td><code>Vercel AI SDK v4</code></td><td>streamText + useChat + tools</td></tr>
+      <tr><td>Auth</td><td><code>NextAuth v5</code> email+OTP</td><td>Mock SSO for demo</td></tr>
+      <tr><td>i18n</td><td>LLM generates copy directly</td><td>Translation IS the feature</td></tr>
+      <tr><td>Pkg</td><td><code>bun</code></td><td>Fast, strict</td></tr>
+    </tbody></table>
+  </div>
+  <div class="c gle" style="margin-top:.75rem"><div style="font-weight:700;font-size:.82rem;color:var(--err)">🚫 Explicitly NOT used</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0">LangChain, Prisma, tRPC, Pages Router, Redux, separate API server, or UI libs outside shadcn/Radix/lucide.</p></div>
+</section>
+
+<div class="sd"></div>
+
+<!-- DATA MODEL -->
+<section id="data" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--ok)">🗄️</span> Data Model</h2>
+  <div class="c" style="overflow-x:auto;margin-bottom:.75rem">
+    <svg viewBox="0 0 800 300" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif">
+      <rect x="10" y="20" width="150" height="100" rx="8" fill="#1a1a2e" stroke="#6938ff" stroke-width="1.5"/>
+      <text x="30" y="42" fill="#8b6bff" font-size="11" font-weight="700">users</text>
+      <text x="30" y="58" fill="#9ca3af" font-size="9">id (PK), email, name</text>
+      <text x="30" y="72" fill="#9ca3af" font-size="9">role, avatarUrl, createdAt</text>
+      <rect x="10" y="150" width="150" height="70" rx="8" fill="#1a1a2e" stroke="#2a2a3a"/>
+      <text x="30" y="172" fill="#6b7280" font-size="11" font-weight="600">otp_codes</text>
+      <text x="30" y="188" fill="#9ca3af" font-size="9">id, email, code, expiresAt</text>
+      <rect x="210" y="10" width="180" height="130" rx="8" fill="#1a1a2e" stroke="#fe2c55" stroke-width="1.5"/>
+      <text x="230" y="32" fill="#ff5c7a" font-size="11" font-weight="700">campaigns</text>
+      <text x="230" y="48" fill="#9ca3af" font-size="9">id (PK), slug, name, description</text>
+      <text x="230" y="62" fill="#9ca3af" font-size="9">createdBy (FK→users), status</text>
+      <text x="230" y="76" fill="#9ca3af" font-size="9">config (JSON), estimated*</text>
+      <text x="230" y="90" fill="#9ca3af" font-size="9">validationIssues, reasoningTrace</text>
+      <text x="230" y="104" fill="#9ca3af" font-size="9">publishedAt, createdAt</text>
+      <rect x="440" y="10" width="160" height="100" rx="8" fill="#1a1a2e" stroke="#f59e0b"/>
+      <text x="460" y="32" fill="#f59e0b" font-size="11" font-weight="600">generated_copy</text>
+      <text x="460" y="48" fill="#9ca3af" font-size="9">id, campaignId (FK), locale</text>
+      <text x="460" y="62" fill="#9ca3af" font-size="9">title, body, ctaText, hashtags</text>
+      <text x="460" y="76" fill="#9ca3af" font-size="9">tone, model, variant</text>
+      <rect x="440" y="140" width="160" height="80" rx="8" fill="#1a1a2e" stroke="#3b82f6"/>
+      <text x="460" y="162" fill="#3b82f6" font-size="11" font-weight="600">conversation_messages</text>
+      <text x="460" y="178" fill="#9ca3af" font-size="9">id, campaignId (FK)</text>
+      <text x="460" y="192" fill="#9ca3af" font-size="9">role, content, payload (JSON)</text>
+      <rect x="210" y="170" width="180" height="70" rx="8" fill="#1a1a2e" stroke="#22c55e"/>
+      <text x="230" y="192" fill="#22c55e" font-size="11" font-weight="600">audit_log</text>
+      <text x="230" y="208" fill="#9ca3af" font-size="9">id, campaignId, userId</text>
+      <text x="230" y="222" fill="#9ca3af" font-size="9">action, delta (JSON)</text>
+      <rect x="650" y="20" width="130" height="100" rx="8" fill="#1a1a2e" stroke="#8b6bff"/>
+      <text x="665" y="42" fill="#8b6bff" font-size="10" font-weight="600">creator_profiles</text>
+      <text x="665" y="58" fill="#9ca3af" font-size="8.5">region, categories</text>
+      <text x="665" y="72" fill="#9ca3af" font-size="8.5">followerTier/Count</text>
+      <text x="665" y="86" fill="#9ca3af" font-size="8.5">gmv90d, engagementRate</text>
+      <rect x="690" y="100" width="60" height="16" rx="8" fill="rgba(105,56,255,.2)"/>
+      <text x="698" y="112" fill="#8b6bff" font-size="8" font-weight="600">~20k rows</text>
+      <line x1="160" y1="70" x2="210" y2="70" stroke="#6938ff" stroke-width="1.2" marker-end="url(#ap)"/>
+      <line x1="390" y1="55" x2="440" y2="50" stroke="#f59e0b" stroke-width="1"/>
+      <line x1="390" y1="80" x2="440" y2="170" stroke="#3b82f6" stroke-width="1"/>
+      <line x1="300" y1="140" x2="300" y2="170" stroke="#22c55e" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="c"><div style="font-weight:700;font-size:.85rem;margin-bottom:.4rem;color:var(--t2)">Key Indexes</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">
+      <span class="b bp">campaigns.createdBy</span><span class="b bp">campaigns.status</span><span class="b bk">generated_copy.campaignId</span><span class="b bi">conversation_messages.campaignId</span><span class="b bo">creator_profiles(region, category, tier)</span><span class="b bo">creator_profiles.gmv90d</span>
+    </div>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- CONFIG SCHEMA -->
+<section id="schema" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--pk)">📐</span> Campaign Config Schema</h2>
+  <div class="c gl" style="margin-bottom:.75rem"><div style="font-weight:700;font-size:.82rem;color:#8b6bff">Single Source of Truth</div><p style="color:var(--t3);font-size:.78rem;margin:3px 0 0"><code>CampaignConfigSchema</code> in <code>lib/schemas/campaign-config.ts</code> — drives LLM, form, DB, and publish.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem">
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#8b6bff;margin-bottom:.3rem">Basics</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">campaignName · taskType · productCategory · brandName · campaignObjective</div></div>
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#ff5c7a;margin-bottom:.3rem">Eligibility</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">regions · followerTiers · categories · minEngagementRate · verifiedOnly</div></div>
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#f59e0b;margin-bottom:.3rem">Reward</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">type (flat_fee/commission/tiered…) · flatFeeUsd · commissionRate</div></div>
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#22c55e;margin-bottom:.3rem">Budget + Timeline</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">totalBudgetUsd · targetCreatorCount · allocation · dates (5 milestones)</div></div>
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#3b82f6;margin-bottom:.3rem">Content Reqs</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">formats (video/live/photo/story) · hashtags · mustMentionBrand</div></div>
+    <div class="c"><div style="font-weight:700;font-size:.82rem;color:#8b6bff;margin-bottom:.3rem">Copy & Tone</div><div style="font-size:.78rem;color:var(--t3);line-height:1.5">targetLocales (8 locales) · tone (5 options) · trackingCode</div></div>
+  </div>
+  <div class="c" style="margin-top:.75rem"><div style="font-weight:700;font-size:.85rem;margin-bottom:.4rem">Task Types</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px"><span class="b bp">open_collab</span><span class="b bp">targeted_invite</span><span class="b bp">free_sample</span><span class="b bk">commission_boost</span><span class="b bk">hashtag_challenge</span><span class="b bk">live_showcase</span><span class="b bk">short_video_review</span></div>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- AI DESIGN -->
+<section id="ai" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--warn)">🤖</span> AI / LLM Integration</h2>
+  <div class="c" style="margin-bottom:.75rem"><div style="font-weight:700;font-size:.85rem;margin-bottom:.75rem">Autonomous Tool Chain</div>
+    <svg viewBox="0 0 760 80" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:system-ui,sans-serif">
+      <rect x="0" y="10" width="130" height="50" rx="8" fill="rgba(105,56,255,.15)" stroke="#6938ff" stroke-width="1.5"/>
+      <text x="65" y="32" fill="#8b6bff" font-size="10" font-weight="700" text-anchor="middle">set_config</text>
+      <text x="65" y="48" fill="#6b7280" font-size="8" text-anchor="middle">merge + validate</text>
+      <line x1="130" y1="35" x2="155" y2="35" stroke="#6938ff" stroke-width="1.5" marker-end="url(#ap)"/>
+      <rect x="155" y="10" width="130" height="50" rx="8" fill="rgba(105,56,255,.15)" stroke="#6938ff" stroke-width="1.5"/>
+      <text x="220" y="32" fill="#8b6bff" font-size="10" font-weight="700" text-anchor="middle">run_validation</text>
+      <text x="220" y="48" fill="#6b7280" font-size="8" text-anchor="middle">deterministic</text>
+      <line x1="285" y1="35" x2="310" y2="35" stroke="#6938ff" stroke-width="1.5" marker-end="url(#ap)"/>
+      <rect x="310" y="10" width="130" height="50" rx="8" fill="rgba(254,44,85,.15)" stroke="#fe2c55" stroke-width="1.5"/>
+      <text x="375" y="32" fill="#ff5c7a" font-size="10" font-weight="700" text-anchor="middle">generate_copy</text>
+      <text x="375" y="48" fill="#6b7280" font-size="8" text-anchor="middle">multi-locale LLM</text>
+      <line x1="440" y1="35" x2="465" y2="35" stroke="#fe2c55" stroke-width="1.5" marker-end="url(#ak)"/>
+      <rect x="465" y="10" width="130" height="50" rx="8" fill="rgba(254,44,85,.15)" stroke="#fe2c55" stroke-width="1.5"/>
+      <text x="530" y="32" fill="#ff5c7a" font-size="10" font-weight="700" text-anchor="middle">run_simulation</text>
+      <text x="530" y="48" fill="#6b7280" font-size="8" text-anchor="middle">budget/reach/ROI</text>
+      <line x1="595" y1="35" x2="620" y2="35" stroke="#22c55e" stroke-width="1.5" marker-end="url(#ap)"/>
+      <rect x="620" y="10" width="120" height="50" rx="8" fill="rgba(34,197,94,.15)" stroke="#22c55e" stroke-width="1.5"/>
+      <text x="680" y="32" fill="#22c55e" font-size="10" font-weight="700" text-anchor="middle">✓ Summary</text>
+      <text x="680" y="48" fill="#6b7280" font-size="8" text-anchor="middle">chat response</text>
+    </svg>
+  </div>
+  <div class="c" style="margin-bottom:.75rem"><div style="font-weight:700;font-size:.85rem;margin-bottom:.5rem">Stage Progress Strip</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <span class="b bp">⏳ Parsing…</span><span style="color:var(--t3)">→</span>
+      <span class="b bo">✅ Config filled</span><span style="color:var(--t3)">→</span>
+      <span class="b bo">✅ Validating</span><span style="color:var(--t3)">→</span>
+      <span class="b bk">✍️ EN copy</span><span style="color:var(--t3)">→</span>
+      <span class="b bk">✍️ ID copy</span><span style="color:var(--t3)">→</span>
+      <span class="b bi">📊 Simulation</span><span style="color:var(--t3)">→</span>
+      <span class="b bo">Done ✓</span>
+    </div>
+  </div>
+  <div class="c"><div style="font-weight:700;font-size:.85rem;margin-bottom:.3rem">Bidirectional Sync</div><p style="color:var(--t3);font-size:.78rem;line-height:1.5;margin:0">Every turn sends current config from Zustand. <code>set_config</code> merges patch → <code>reset(mergedValues)</code>. AI respects user-typed values.</p></div>
+</section>
+
+<div class="sd"></div>
+
+<!-- VALIDATION -->
+<section id="valid" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--warn)">✅</span> Validation Rules</h2>
+  <div class="c" style="overflow-x:auto">
+    <table><thead><tr><th>Rule</th><th>Level</th><th>Check</th></tr></thead><tbody>
+      <tr><td>Application window sanity</td><td><span class="b be">error</span></td><td><code>applicationEnd > applicationStart</code></td></tr>
+      <tr><td>Content deadline after app close</td><td><span class="b bw">warning</span></td><td><code>contentDeadline >= applicationEnd</code></td></tr>
+      <tr><td>Campaign end after go-live</td><td><span class="b be">error</span></td><td><code>campaignEnd > goLiveDate</code></td></tr>
+      <tr><td>Budget vs. reward</td><td><span class="b be">error</span></td><td><code>minReward × target ≤ budget × (1-reservePct)</code></td></tr>
+      <tr><td>Small budget</td><td><span class="b bw">warning</span></td><td><code>budget &lt; $50</code></td></tr>
+      <tr><td>Eligibility reach &lt; target</td><td><span class="b bw">warning</span></td><td><code>eligibleCount &lt; targetCreatorCount</code></td></tr>
+      <tr><td>Commission rate high</td><td><span class="b bw">warning</span></td><td><code>commissionRate &gt; 30%</code></td></tr>
+      <tr><td>Region-language mismatch</td><td><span class="b bi">info</span></td><td>Region has no matching locale</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- SIMULATOR -->
+<section id="sim" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--info)">📊</span> Budget / Reach / ROI Simulator</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem">
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">eligibleCount</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">COUNT(*) with eligibility WHERE</div></div>
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">acceptanceRate</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">nano 45% → mega 5%</div></div>
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">estimatedCost</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">flat fees + product + commission + reserve</div></div>
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">estimatedReach</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">Σ followers × (views/followers) × 0.4</div></div>
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">estimatedCpa</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">cost / (reach × 0.008)</div></div>
+    <div class="c"><div style="font-size:.7rem;color:var(--t3);text-transform:uppercase;letter-spacing:.04em">estimatedRoi</div><div style="font-size:.78rem;color:var(--t2);margin-top:3px">(Gmv × 0.15 − cost) / cost</div></div>
+  </div>
+  <div class="c gli" style="margin-top:.75rem"><p style="color:var(--t2);font-size:.78rem;margin:0">Returns top 12 eligible creators by GMV. All math is <strong style="color:var(--t1)">deterministic pure functions</strong> — testable without LLM or DB mocks.</p></div>
+</section>
+
+<div class="sd"></div>
+
+<!-- FRONTEND -->
+<section id="fe" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--p)">🖥️</span> Frontend Pages</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.75rem">
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#8b6bff;margin-bottom:.3rem">(auth)/login</div><p style="color:var(--t3);font-size:.78rem;margin:0;line-height:1.4">Dark card + gradient. Email → OTP. Dev: code shown on-screen.</p></div>
+    <div class="c" style="border:1px solid var(--p)"><div style="font-weight:700;font-size:.85rem;color:#8b6bff;margin-bottom:.3rem">⭐ /campaigns/new</div><p style="color:var(--t2);font-size:.78rem;margin:0;line-height:1.4">Chat + Form split-pane. Stage strip, diff-flash, live estimate.</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#ff5c7a;margin-bottom:.3rem">/campaigns</div><p style="color:var(--t3);font-size:.78rem;margin:0;line-height:1.4">Server Component list. Table, pills, flags, search + filter.</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#f59e0b;margin-bottom:.3rem">/campaigns/[id]</div><p style="color:var(--t3);font-size:.78rem;margin:0;line-height:1.4">Dashboard: KPIs, tier donut, region bar, Gantt, copy, creators, audit.</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#22c55e;margin-bottom:.3rem">/campaigns/[id]/edit</div><p style="color:var(--t3);font-size:.78rem;margin:0;line-height:1.4">Reuses chat+form for editing.</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#3b82f6;margin-bottom:.3rem">/settings</div><p style="color:var(--t3);font-size:.78rem;margin:0;line-height:1.4">Profile, LLM model picker, dev toggles.</p></div>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- MILESTONES -->
+<section id="mile" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--ok)">📅</span> Development Milestones</h2>
+  <p style="color:var(--t3);font-size:.82rem;margin-bottom:1rem"><strong style="color:var(--t1)">Deadline: Sept 7</strong> — Feature complete Sept 4, polish Sept 5–7.</p>
+
+  <div style="margin-bottom:1.5rem">
+    <div style="font-weight:700;font-size:.95rem;margin-bottom:.6rem;color:#8b6bff">Week 1 — Foundation + Core Loop <span style="font-weight:400;color:var(--t3);font-size:.78rem;margin-left:6px">Aug 26 – Sept 1</span></div>
+    <div class="c" style="padding:1rem"><table><thead><tr><th>Day</th><th>Deliverable</th></tr></thead><tbody>
+      <tr><td>1</td><td>Scaffold, deps, Tailwind + shadcn, Drizzle schema, Zod schemas</td></tr>
+      <tr><td>2</td><td>Auth (NextAuth + OTP), login page, middleware</td></tr>
+      <tr><td>3</td><td>Seed script (20k creators), app shell, campaign list</td></tr>
+      <tr><td>4</td><td>Chat + Form split-pane (static UI), useChat, form sections</td></tr>
+      <tr><td>5</td><td>/api/chat with streamText + set_config, Zustand, config→form sync</td></tr>
+      <tr><td>6</td><td>All tools: run_validation, run_simulation, generate_copy. E2E flow</td></tr>
+      <tr><td>7</td><td>Buffer / polish. Diff highlighting, quick-prompts, mock fallback</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div style="margin-bottom:1.5rem">
+    <div style="font-weight:700;font-size:.95rem;margin-bottom:.6rem;color:#ff5c7a">Week 2 — Dashboard + Polish <span style="font-weight:400;color:var(--t3);font-size:.78rem;margin-left:6px">Sept 2 – Sept 4</span></div>
+    <div class="c" style="padding:1rem"><table><thead><tr><th>Day</th><th>Deliverable</th></tr></thead><tbody>
+      <tr><td>8</td><td>Dashboard: KPI cards, tier donut, region bar chart</td></tr>
+      <tr><td>9</td><td>Copy tab, matching creators table, audit log</td></tr>
+      <tr><td>10</td><td>Publish flow, campaign edit, settings page</td></tr>
+      <tr><td>11</td><td>Validation cards, estimate card, copy-preview card in chat</td></tr>
+      <tr><td>12</td><td>Dark mode, skeletons, empty states, error boundaries, toasts</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div>
+    <div style="font-weight:700;font-size:.95rem;margin-bottom:.6rem;color:#22c55e">Week 3 — Demo Polish <span style="font-weight:400;color:var(--t3);font-size:.78rem;margin-left:6px">Sept 5 – Sept 7</span></div>
+    <div class="c" style="padding:1rem"><table><thead><tr><th>Day</th><th>Deliverable</th></tr></thead><tbody>
+      <tr><td>Sept 5</td><td>E2E@QA pass, fix bugs, confetti, ⌘K</td></tr>
+      <tr><td>Sept 6</td><td>Record demo video, README, Docker setup</td></tr>
+      <tr><td>Sept 7</td><td>Final polish, submit</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- DEMO SCRIPT -->
+<section id="demo" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--pk)">🎬</span> Demo Script (3 min)</h2>
+  <div class="c" style="padding:1rem">
+    <table><thead><tr><th>Time</th><th>Action</th></tr></thead><tbody>
+      <tr><td>0:00</td><td>Open /campaigns/new. Empty chat + empty form.</td></tr>
+      <tr><td>0:05</td><td>Type: "Run a 7-day US-only video campaign for new beauty creators under 10k, tiered commission 10%, $5k budget, next Monday"</td></tr>
+      <tr><td>0:10</td><td>Watch stage strip animate: Parsing ✓ → Config ✓ → Validating ✓ → Copy ✓ → Simulate ✓</td></tr>
+      <tr><td>0:25</td><td>Form auto-fills with diff-highlight flash. Chat shows estimate + warnings.</td></tr>
+      <tr><td>0:45</td><td>Type: "Add Indonesia and Thailand, make tone playful, regenerate copy"</td></tr>
+      <tr><td>0:55</td><td>Form updates: regions add ID+TH, new locale tabs with copy.</td></tr>
+      <tr><td>1:05</td><td>Manually tweak budget to $3,000. Estimate card updates instantly.</td></tr>
+      <tr><td>1:10</td><td>Type: "Is $3,000 enough?" → AI suggests reduce target or raise budget.</td></tr>
+      <tr><td>1:25</td><td>"Reduce target to 200 and optimize for GMV." → Form updates.</td></tr>
+      <tr><td>1:45</td><td>Click "Validate" — green checkmark. Click "Publish" — confetti 🎉</td></tr>
+      <tr><td>1:50</td><td>Dashboard: KPIs, tier donut, region bar, Gantt, creators table.</td></tr>
+      <tr><td>2:00</td><td>"From natural language to published, validated, multi-language campaign — in under 2 minutes."</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<div class="sd"></div>
+
+<!-- STRETCH -->
+<section id="stretch" style="margin-bottom:2.5rem">
+  <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:.75rem"><span style="color:var(--info)">🚀</span> Stretch Features</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem">
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#22c55e;margin-bottom:.3rem">🎉 Confetti on publish</div><p style="color:var(--t3);font-size:.78rem;margin:0">1h · Wow factor · P0</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#3b82f6;margin-bottom:.3rem">⌘K Command palette</div><p style="color:var(--t3);font-size:.78rem;margin:0">3h · Power-user feel · P1</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#8b6bff;margin-bottom:.3rem">📋 Template library</div><p style="color:var(--t3);font-size:.78rem;margin:0">4h · Reduces repetitive briefs · P1</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#f59e0b;margin-bottom:.3rem">🔄 Copy diff (before/after)</div><p style="color:var(--t3);font-size:.78rem;margin:0">3h · Trust in AI edits · P2</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#ff5c7a;margin-bottom:.3rem">📄 Export JSON / PDF</div><p style="color:var(--t3);font-size:.78rem;margin:0">2h · Sharing with stakeholders · P2</p></div>
+    <div class="c"><div style="font-weight:700;font-size:.85rem;color:#6b7280;margin-bottom:.3rem">🎙️ Voice input</div><p style="color:var(--t3);font-size:.78rem;margin:0">4h · Demo wow, not practical · P3</p></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+</body>
+</html>

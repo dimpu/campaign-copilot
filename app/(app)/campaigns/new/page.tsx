@@ -1,9 +1,14 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { useCallback, useEffect, useRef } from "react";
+import {
+	Panel,
+	PanelGroup,
+	PanelResizeHandle,
+	type ImperativePanelHandle,
+} from "react-resizable-panels";
 import { CampaignForm } from "@/components/campaign-form/campaign-form";
 import { LivePreviewPanel } from "@/components/campaign-preview/live-preview-panel";
 import { ChatPanel } from "@/components/chat/chat-panel";
@@ -14,6 +19,9 @@ import { useDraftStore } from "@/lib/store/draft-store";
 export default function NewCampaignPage() {
 	const router = useRouter();
 	const mergeConfig = useDraftStore((s) => s.mergeConfig);
+	const previewCollapsed = useDraftStore((s) => s.previewCollapsed);
+	const togglePreviewCollapsed = useDraftStore((s) => s.togglePreviewCollapsed);
+	const previewPanelRef = useRef<ImperativePanelHandle>(null);
 
 	const handleConfigUpdate = useCallback(
 		(patch: Partial<CampaignConfig>) => {
@@ -21,6 +29,17 @@ export default function NewCampaignPage() {
 		},
 		[mergeConfig],
 	);
+
+	// Sync the react-resizable-panels collapse state with the store
+	useEffect(() => {
+		const panel = previewPanelRef.current;
+		if (!panel) return;
+		if (previewCollapsed) {
+			panel.collapse();
+		} else {
+			panel.expand();
+		}
+	}, [previewCollapsed]);
 
 	return (
 		<div className="h-[calc(100vh-4rem)] flex flex-col">
@@ -37,6 +56,24 @@ export default function NewCampaignPage() {
 				<span className="text-xs text-text-muted">
 					Describe your campaign in chat or fill the form directly
 				</span>
+
+				{/* Spacer */}
+				<div className="flex-1" />
+
+				{/* Preview toggle */}
+				<Button
+					variant={previewCollapsed ? "outline" : "default"}
+					size="sm"
+					onClick={togglePreviewCollapsed}
+					className="gap-1.5 text-xs"
+				>
+					{previewCollapsed ? (
+						<Eye className="h-3 w-3" />
+					) : (
+						<EyeOff className="h-3 w-3" />
+					)}
+					Preview
+				</Button>
 			</div>
 
 			{/* Three-column split pane: Chat | Form | Live Preview */}
@@ -45,11 +82,29 @@ export default function NewCampaignPage() {
 					<ChatPanel campaignId={null} onConfigUpdate={handleConfigUpdate} />
 				</Panel>
 				<PanelResizeHandle className="w-1 bg-border hover:bg-primary/50 transition-colors cursor-col-resize" />
-				<Panel defaultSize={40} minSize={30}>
+				<Panel defaultSize={previewCollapsed ? 55 : 40} minSize={30}>
 					<CampaignForm />
 				</Panel>
 				<PanelResizeHandle className="w-1 bg-border hover:bg-primary/50 transition-colors cursor-col-resize" />
-				<Panel defaultSize={25} minSize={10} collapsible>
+				<Panel
+					ref={previewPanelRef}
+					defaultSize={previewCollapsed ? 0 : 25}
+					minSize={10}
+					collapsible
+					collapsedSize={0}
+					onCollapse={() => {
+						// Sync store when user drags to collapse
+						if (!useDraftStore.getState().previewCollapsed) {
+							useDraftStore.getState().togglePreviewCollapsed();
+						}
+					}}
+					onExpand={() => {
+						// Sync store when user drags to expand
+						if (useDraftStore.getState().previewCollapsed) {
+							useDraftStore.getState().togglePreviewCollapsed();
+						}
+					}}
+				>
 					<LivePreviewPanel />
 				</Panel>
 			</PanelGroup>

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+bun.lock
+
+# Next.js build cache
+.next
+
+# Database (mounted as volume)
+local.db
+local.db-journal
+local.db-wal
+
+# Env files (inject via docker-compose/env)
+.env
+.env.local
+.env.*.local
+
+# Git / IDE
+.git
+.gitignore
+.idea
+.vscode
+*.swp
+
+# Misc
+.DS_Store
+*.pem
+coverage
+.turbo
+graphify-out
+.playwright-mcp
+.opencode
+.agents
+ARCHITECTURE.md
+GEC-B_Full-Stack_Demo_Day.md
+AGENTS.md
+SPEC.md
+*.test.ts
+tests/

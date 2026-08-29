@@ -29,6 +29,7 @@ interface DraftState {
 	stage: DraftStage;
 	lastAiPatchAt: Record<string, number>;
 	isLoading: boolean;
+	previewCollapsed: boolean;
 
 	// Actions
 	setCampaignId: (id: string | null) => void;
@@ -40,6 +41,8 @@ interface DraftState {
 	setStatus: (status: string | null) => void;
 	setStage: (s: DraftStage) => void;
 	setLoading: (l: boolean) => void;
+	togglePreviewCollapsed: () => void;
+	setPreviewCollapsed: (collapsed: boolean) => void;
 	reset: () => void;
 }
 
@@ -53,16 +56,32 @@ export const useDraftStore = create<DraftState>((set, get) => ({
 	stage: "idle",
 	lastAiPatchAt: {},
 	isLoading: false,
+	previewCollapsed: true,
 
 	setCampaignId: (id) => set({ campaignId: id }),
 	setConfig: (config) => set({ config }),
 	mergeConfig: (patch, source) => {
 		const current = get().config;
+		// Detect whether the form was "empty" before this patch
+		const wasEmpty =
+			!current ||
+			(current.campaignName === "" && current.brandName === "");
+
 		// Always merge on top of a complete base config so that form components
 		// and downstream code can safely read required fields (reward, budget, etc.)
 		// even on the very first AI patch.
 		const base: CampaignConfig = current ?? createDefaultConfig();
 		const merged = deepMergeConfig(base, patch);
+
+		// Auto-expand live preview when config first gets meaningful data
+		if (
+			wasEmpty &&
+			get().previewCollapsed &&
+			(merged.campaignName !== "" || merged.brandName !== "")
+		) {
+			set({ previewCollapsed: false });
+		}
+
 		const patchAt: Record<string, number> = {};
 
 		if (source === "ai") {
@@ -88,6 +107,8 @@ export const useDraftStore = create<DraftState>((set, get) => ({
 	setStatus: (status) => set({ status }),
 	setStage: (stage) => set({ stage }),
 	setLoading: (isLoading) => set({ isLoading }),
+	togglePreviewCollapsed: () => set((s) => ({ previewCollapsed: !s.previewCollapsed })),
+	setPreviewCollapsed: (collapsed) => set({ previewCollapsed: collapsed }),
 	reset: () =>
 		set({
 			campaignId: null,
@@ -99,6 +120,7 @@ export const useDraftStore = create<DraftState>((set, get) => ({
 			stage: "idle",
 			lastAiPatchAt: {},
 			isLoading: false,
+			previewCollapsed: true,
 		}),
 }));
 

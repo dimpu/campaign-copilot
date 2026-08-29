@@ -1,4 +1,5 @@
 import { CampaignPreviewCard } from "@/components/campaign-preview/campaign-preview-card";
+import { PhoneFrame } from "@/components/campaign-preview/phone-frame";
 import { getCampaign, getCopyForCampaign } from "@/lib/db/queries";
 import type { CampaignConfig } from "@/lib/schemas/campaign-config";
 
@@ -27,7 +28,6 @@ export default async function CampaignPreviewPage({
 	const config: CampaignConfig = JSON.parse(campaign.config);
 	const copyRecords = await getCopyForCampaign(id);
 
-	// Map copy records to the shape the preview card expects
 	const copy = copyRecords.map((c) => ({
 		locale: c.locale,
 		title: c.title,
@@ -38,19 +38,19 @@ export default async function CampaignPreviewPage({
 	}));
 
 	return (
-		// The preview page is intentionally outside the (app) layout
-		// so it has no sidebar/topbar — it's a standalone mobile view.
-		<div className="min-h-screen bg-bg-dark">
-			<CampaignPreviewCard
-				config={config}
-				status={campaign.status}
-				campaignName={campaign.name}
-				brandName={config.brandName}
-				estimatedReach={campaign.estimatedReach}
-				eligibleCreatorCount={campaign.eligibleCreatorCount}
-				estimatedCost={campaign.estimatedCost}
-				copy={copy}
-			/>
+		<div className="min-h-screen bg-bg-dark flex items-start justify-center py-10">
+			<PhoneFrame>
+				<CampaignPreviewCard
+					config={config}
+					status={campaign.status}
+					campaignName={campaign.name}
+					brandName={config.brandName}
+					estimatedReach={campaign.estimatedReach}
+					eligibleCreatorCount={campaign.eligibleCreatorCount}
+					estimatedCost={campaign.estimatedCost}
+					copy={copy}
+				/>
+			</PhoneFrame>
 		</div>
 	);
 }

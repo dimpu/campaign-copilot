@@ -1,7 +1,7 @@
 "use client";
 
-import { Bell, Moon, Sun } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Bell, Moon, Sparkles, Sun } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -9,23 +9,29 @@ import { APP_NAME } from "@/lib/constants";
 import { UserNav } from "./user-nav";
 
 export function Topbar() {
-	const pathname = usePathname();
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	const router = useRouter();
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
 
-	const pageTitle = getPageTitle(pathname);
-
 	return (
 		<header className="flex h-14 items-center justify-between border-b border-border bg-bg-dark px-6">
 			{/* Page Title */}
-			<div className="flex items-center gap-2">
-				<h1 className="text-lg font-semibold text-text-primary">{pageTitle}</h1>
-			</div>
-
+			<button
+				type="button"
+				className="flex h-14 w-full items-center gap-2.5 border-b border-border cursor-pointer text-left"
+				onClick={() => router.push("/campaigns")}
+			>
+				<div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
+					<Sparkles className="h-4.5 w-4.5 text-white" />
+				</div>
+				<span className="gradient-primary-text text-lg font-bold tracking-tight">
+					{APP_NAME}
+				</span>
+			</button>
 			{/* Right side */}
 			<div className="flex items-center gap-2">
 				{/* Theme toggle */}
@@ -60,14 +66,4 @@ export function Topbar() {
 			</div>
 		</header>
 	);
-}
-
-function getPageTitle(pathname: string): string {
-	if (pathname === "/campaigns") return "Campaigns";
-	if (pathname === "/campaigns/new") return "New Campaign";
-	if (pathname?.startsWith("/campaigns/") && pathname.includes("/edit"))
-		return "Edit Campaign";
-	if (pathname?.startsWith("/campaigns/")) return "Campaign Dashboard";
-	if (pathname === "/settings") return "Settings";
-	return APP_NAME;
 }

@@ -221,7 +221,7 @@ export default function EditCampaignPage() {
 					<CampaignForm />
 				</Panel>
 				<PanelResizeHandle className="w-1 bg-border hover:bg-primary/50 transition-colors cursor-col-resize" />
-				<Panel defaultSize={25} minSize={10} collapsible>
+				<Panel id="preview" defaultSize={20} minSize={10} collapsible>
 					<LivePreviewPanel />
 				</Panel>
 			</PanelGroup>

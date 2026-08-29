@@ -2,6 +2,7 @@ import { Plus, Search } from "lucide-react";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { CampaignsTable } from "@/components/campaign-list/campaigns-table";
+import { Pagination } from "@/components/campaign-list/pagination";
 import { StatsStrip } from "@/components/campaign-list/stats-strip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,12 +29,13 @@ export default async function CampaignsPage({
 	const status = params.status;
 	const q = params.q;
 	const page = Number(params.page) || 1;
+	const pageSize = 20;
 
 	const { items: campaigns, total } = await listCampaigns({
 		status,
 		q,
 		page,
-		pageSize: 20,
+		pageSize,
 		userId: (session.user as { id: string }).id,
 	});
 
@@ -134,51 +136,15 @@ export default async function CampaignsPage({
 				<CampaignsTable campaigns={campaigns} />
 			</Suspense>
 
-			{/* Pagination info */}
-			{total > 0 && (
-				<div className="flex items-center justify-between text-sm text-text-muted">
-					<span>
-						Showing {campaigns.length} of {total} campaigns
-					</span>
-					{total > 20 && (
-						<div className="flex items-center gap-2">
-							{page > 1 ? (
-								<a
-									href={`/campaigns?${new URLSearchParams({
-										...(status && { status }),
-										...(q && { q }),
-										page: String(page - 1),
-									}).toString()}`}
-									className="inline-flex items-center justify-center gap-2 h-8 rounded-md px-3 text-xs font-medium border border-border bg-transparent hover:bg-bg-card-hover text-text-primary transition-colors"
-								>
-									Previous
-								</a>
-							) : (
-								<span className="inline-flex items-center justify-center gap-2 h-8 rounded-md px-3 text-xs font-medium border border-border bg-transparent text-text-muted opacity-50">
-									Previous
-								</span>
-							)}
-							<span className="px-2 text-sm">Page {page}</span>
-							{campaigns.length >= 20 ? (
-								<a
-									href={`/campaigns?${new URLSearchParams({
-										...(status && { status }),
-										...(q && { q }),
-										page: String(page + 1),
-									}).toString()}`}
-									className="inline-flex items-center justify-center gap-2 h-8 rounded-md px-3 text-xs font-medium border border-border bg-transparent hover:bg-bg-card-hover text-text-primary transition-colors"
-								>
-									Next
-								</a>
-							) : (
-								<span className="inline-flex items-center justify-center gap-2 h-8 rounded-md px-3 text-xs font-medium border border-border bg-transparent text-text-muted opacity-50">
-									Next
-								</span>
-							)}
-						</div>
-					)}
-				</div>
-			)}
+			{/* Pagination */}
+			<Pagination
+				page={page}
+				total={total}
+				pageSize={pageSize}
+				hrefBuilder={(p) =>
+					`/campaigns?${new URLSearchParams({ ...(status && { status }), ...(q && { q }), page: String(p) }).toString()}`
+				}
+			/>
 		</div>
 	);
 }

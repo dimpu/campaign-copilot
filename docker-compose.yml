@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - db-data:/app/data
+    environment:
+      - DATABASE_URL=file:./data/local.db
+      - LLM_MODE=${LLM_MODE:-mock}
+      - AUTH_SECRET=${AUTH_SECRET:-change-me-in-production}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - AUTH_URL=${AUTH_URL:-http://localhost:3000}
+      # Uncomment and set for real LLM:
+      # - OPENAI_API_KEY=sk-...
+      # - LLMBOX_API_KEY=...
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  db-data:
