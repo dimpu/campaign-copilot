@@ -1,0 +1,72 @@
+- generic [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - complementary [ref=f1e3]:
+      - generic [ref=f1e4] [cursor=pointer]: Campaign Copilot
+      - navigation [ref=f1e9]:
+        - button "Campaigns" [ref=f1e10]
+        - button "Settings" [active] [ref=f1e11]
+      - generic [ref=f1e13]:
+        - generic [ref=f1e14]: DU
+        - generic [ref=f1e16]:
+          - paragraph [ref=f1e17]: Demo User
+          - paragraph [ref=f1e255]: demo@bytedance.com
+        - button [ref=f1e18]
+    - generic [ref=f1e19]:
+      - banner [ref=f1e20]:
+        - heading "Settings" [level=1] [ref=f1e337]
+        - generic [ref=f1e23]:
+          - button "Toggle theme" [ref=f1e24]
+          - button "Notifications" [ref=f1e25]
+          - button "DU" [ref=f1e256]
+      - main [ref=f1e29]:
+        - generic [ref=f1e338]:
+          - heading "Settings" [level=1] [ref=f1e343]
+          - generic [ref=f1e344]:
+            - generic [ref=f1e345]:
+              - generic [ref=f1e346]: Profile
+              - generic [ref=f1e351]: Your account information
+            - generic [ref=f1e352]:
+              - generic [ref=f1e353]:
+                - text: Email
+                - paragraph [ref=f1e354]: demo@bytedance.com
+              - generic [ref=f1e355]:
+                - text: Name
+                - paragraph [ref=f1e356]: Demo User
+              - generic [ref=f1e357]:
+                - text: Role
+                - generic [ref=f1e358]: ops
+          - generic [ref=f1e359]:
+            - generic [ref=f1e360]:
+              - generic [ref=f1e361]: AI / LLM
+              - generic [ref=f1e366]: Configure the AI model provider
+            - generic [ref=f1e368]:
+              - text: Provider Priority
+              - generic [ref=f1e369]:
+                - generic [ref=f1e370]:
+                  - generic [ref=f1e371]: LLMBox
+                  - generic [ref=f1e372]: GLM 5.1 — ByteDance internal (llmbox.tiktok-row.net)
+                - generic [ref=f1e373]:
+                  - generic [ref=f1e374]: OpenAI
+                  - generic [ref=f1e375]: GPT-4o — Public cloud (fallback)
+                - generic [ref=f1e376]:
+                  - generic [ref=f1e377]: Mock
+                  - generic [ref=f1e378]: Deterministic offline mode (demo / testing)
+              - paragraph [ref=f1e379]:
+                - text: Set
+                - code [ref=f1e380]: LLMBOX_API_KEY
+                - text: in
+                - code [ref=f1e381]: .env.local
+                - text: to use LLMBox. Set
+                - code [ref=f1e382]: LLM_MODE=mock
+                - text: for offline demo.
+          - generic [ref=f1e383]:
+            - generic [ref=f1e384]:
+              - generic [ref=f1e385]: Dev Tools
+              - generic [ref=f1e389]: Development utilities
+            - generic [ref=f1e391]:
+              - text: Re-seed Database
+              - paragraph [ref=f1e392]: Wipes and re-generates 20,000 synthetic creator profiles. This is deterministic (faker seed 42).
+              - button "Re-seed Database" [ref=f1e393]
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f1e262] [cursor=pointer]
+  - alert [ref=f1e254]

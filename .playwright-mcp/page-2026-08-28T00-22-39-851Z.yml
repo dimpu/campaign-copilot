@@ -1,0 +1,281 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - complementary [ref=f1e3]:
+      - generic [ref=f1e4] [cursor=pointer]: Campaign Copilot
+      - navigation [ref=f1e9]:
+        - button "Campaigns" [ref=f1e10]
+        - button "Settings" [ref=f1e11]
+      - generic [ref=f1e13]:
+        - generic [ref=f1e14]: DU
+        - generic [ref=f1e16]:
+          - paragraph [ref=f1e17]: Demo User
+          - paragraph [ref=f1e255]: demo@bytedance.com
+        - button [ref=f1e18]
+    - generic [ref=f1e19]:
+      - banner [ref=f1e20]:
+        - heading "New Campaign" [level=1] [ref=f1e22]
+        - generic [ref=f1e23]:
+          - button "Toggle theme" [ref=f1e24]
+          - button "Notifications" [ref=f1e25]
+          - button "DU" [ref=f1e256]
+      - main [ref=f1e29]:
+        - generic [ref=f1e30]:
+          - generic [ref=f1e31]:
+            - button [ref=f1e32]
+            - heading "New Campaign" [level=1] [ref=f1e33]
+            - generic [ref=f1e34]: Describe your campaign in chat or fill the form directly
+          - generic [ref=f1e35]:
+            - generic [ref=f1e37]:
+              - generic [ref=f1e267]:
+                - generic [ref=f1e268]: Parsing
+                - generic [ref=f1e274]: Config
+                - generic [ref=f1e279]: Validating
+                - generic [ref=f1e284]: Copy
+                - generic [ref=f1e289]: Simulate
+                - generic [ref=f1e294]: Done
+              - generic [ref=f1e298]:
+                - generic [ref=f1e299]:
+                  - generic [ref=f1e300]:
+                    - paragraph [ref=f1e301]: US beauty micro-creators, $5k
+                    - generic [ref=f1e302]: 5:22 PM
+                  - generic [ref=f1e303]: U
+                - generic [ref=f1e318]:
+                  - paragraph [ref=f1e320]: "Let me build this out! I'll set up a US beauty micro-creator campaign with your $5K budget.Got a warning — go-live should be after the content deadline so there's time for review. Let me fix that timeline ordering:"
+                  - generic [ref=f1e321]: 5:22 PM
+                - generic [ref=f1e322]:
+                  - paragraph [ref=f1e323]: Something went wrong
+                  - paragraph [ref=f1e324]: "Error executing tool set_config: Cannot read properties of undefined (reading 'flatFeeUsd')"
+                  - button "Retry" [ref=f1e325]
+              - generic [ref=f1e62]:
+                - generic [ref=f1e63]:
+                  - button "US beauty micro-creators, $5k" [ref=f1e64]
+                  - button "ID+TH fashion, commission" [ref=f1e65]
+                  - button "Free sample campaign" [ref=f1e66]
+                  - button "Commission boost" [ref=f1e67]
+                - generic [ref=f1e68]:
+                  - textbox "Describe your campaign..." [ref=f1e69]
+                  - button [disabled] [ref=f1e70]
+                - generic [ref=f1e73]:
+                  - generic [ref=f1e74]: ⌘K to focus
+                  - generic [ref=f1e75]: Shift+Enter for new line
+                  - generic [ref=f1e76]: Enter to send
+            - separator [ref=f1e77]
+            - generic [ref=f1e79]:
+              - heading "Campaign Configuration" [level=2] [ref=f1e84]
+              - generic [ref=f1e85]:
+                - generic [ref=f1e86]:
+                  - heading "Basics" [level=3] [ref=f1e91]
+                  - generic [ref=f1e92]:
+                    - generic [ref=f1e93]:
+                      - text: Campaign Name *
+                      - textbox "Campaign Name *" [ref=f1e94]:
+                        - /placeholder: e.g. US Beauty Summer Launch
+                    - generic [ref=f1e95]:
+                      - text: Task Type *
+                      - combobox [ref=f1e96]:
+                        - option "Open Collaboration" [selected]
+                        - option "Targeted Invitation"
+                        - option "Free Product Sample"
+                        - option "Commission Rate Boost"
+                        - option "Hashtag Challenge"
+                        - option "Live Stream Showcase"
+                        - option "Short Video Review"
+                    - generic [ref=f1e97]:
+                      - text: Product Category *
+                      - textbox "Product Category *" [ref=f1e98]:
+                        - /placeholder: e.g. beauty, fashion, electronics
+                    - generic [ref=f1e99]:
+                      - text: Brand Name
+                      - textbox "Brand Name" [ref=f1e100]:
+                        - /placeholder: Your brand name
+                    - generic [ref=f1e101]:
+                      - text: Campaign Objective
+                      - combobox [ref=f1e102]:
+                        - option "Brand Awareness" [selected]
+                        - option "Conversion"
+                        - option "GMV / Launch"
+                        - option "New Product"
+                        - option "Creator Retention"
+                    - generic [ref=f1e103]:
+                      - text: Tracking Code
+                      - textbox "Tracking Code" [ref=f1e104]:
+                        - /placeholder: Optional UTM or tracking code
+                    - generic [ref=f1e105]:
+                      - text: Internal Notes
+                      - textbox "Internal Notes" [ref=f1e106]:
+                        - /placeholder: Notes for your team (not shown to creators)
+                - generic [ref=f1e107]:
+                  - heading "Eligibility" [level=3] [ref=f1e114]
+                  - generic [ref=f1e115]:
+                    - generic [ref=f1e116]:
+                      - text: Regions *
+                      - generic [ref=f1e117]:
+                        - button "🇺🇸 US" [ref=f1e118]
+                        - button "🇬🇧 GB" [ref=f1e119]
+                        - button "🇮🇩 ID" [ref=f1e120]
+                        - button "🇹🇭 TH" [ref=f1e121]
+                        - button "🇻🇳 VN" [ref=f1e122]
+                        - button "🇲🇾 MY" [ref=f1e123]
+                        - button "🇵🇭 PH" [ref=f1e124]
+                        - button "🇧🇷 BR" [ref=f1e125]
+                        - button "🇲🇽 MX" [ref=f1e126]
+                        - button "🇸🇬 SG" [ref=f1e127]
+                    - generic [ref=f1e128]:
+                      - text: Categories *
+                      - generic [ref=f1e129]:
+                        - button "fashion" [ref=f1e130]
+                        - button "beauty" [ref=f1e131]
+                        - button "tech" [ref=f1e132]
+                        - button "food" [ref=f1e133]
+                        - button "gaming" [ref=f1e134]
+                        - button "home" [ref=f1e135]
+                        - button "fitness" [ref=f1e136]
+                        - button "parenting" [ref=f1e137]
+                        - button "pets" [ref=f1e138]
+                        - button "automotive" [ref=f1e139]
+                    - generic [ref=f1e140]:
+                      - text: Follower Tiers *
+                      - generic [ref=f1e141]:
+                        - button "Nano (1K–10K)" [ref=f1e142]
+                        - button "Micro (10K–50K)" [ref=f1e143]
+                        - button "Mid (50K–200K)" [ref=f1e144]
+                        - button "Macro (200K–1M)" [ref=f1e145]
+                        - button "Mega (1M+)" [ref=f1e146]
+                    - generic [ref=f1e147]:
+                      - generic [ref=f1e148]:
+                        - text: Min Followers
+                        - spinbutton "Min Followers" [ref=f1e149]
+                      - generic [ref=f1e150]:
+                        - text: Max Followers
+                        - spinbutton "Max Followers" [ref=f1e151]
+                    - generic [ref=f1e152]:
+                      - generic [ref=f1e153]:
+                        - text: Min Engagement Rate
+                        - spinbutton "Min Engagement Rate" [ref=f1e154]
+                      - generic [ref=f1e155]:
+                        - text: Min GMV (90d) $
+                        - spinbutton "Min GMV (90d) $" [ref=f1e156]
+                    - generic [ref=f1e157]:
+                      - generic [ref=f1e159] [cursor=pointer]:
+                        - checkbox "Verified Only" [ref=f1e160]
+                        - text: Verified Only
+                      - generic [ref=f1e162] [cursor=pointer]:
+                        - checkbox "Affiliate Only" [checked] [ref=f1e163]
+                        - text: Affiliate Only
+                - generic [ref=f1e164]:
+                  - heading "Reward" [level=3] [ref=f1e170]
+                  - generic [ref=f1e171]:
+                    - generic [ref=f1e172]:
+                      - text: Reward Type *
+                      - combobox [ref=f1e173]:
+                        - option "Flat Fee"
+                        - option "Commission" [selected]
+                        - option "Tiered Commission"
+                        - option "Free Product"
+                        - option "Mixed"
+                    - generic [ref=f1e174]:
+                      - text: Commission Rate (0–1)
+                      - spinbutton "Commission Rate (0–1)" [ref=f1e175]: "0.1"
+                    - generic [ref=f1e176]:
+                      - text: Performance Bonus (USD)
+                      - spinbutton "Performance Bonus (USD)" [ref=f1e177]
+                - generic [ref=f1e178]:
+                  - heading "Budget & Timeline" [level=3] [ref=f1e182]
+                  - generic [ref=f1e183]:
+                    - generic [ref=f1e184]:
+                      - text: Total Budget (USD) *
+                      - spinbutton "Total Budget (USD) *" [ref=f1e185]: "5000"
+                    - generic [ref=f1e186]:
+                      - text: Target Creator Count *
+                      - spinbutton "Target Creator Count *" [ref=f1e187]: "100"
+                    - generic [ref=f1e188]:
+                      - text: Allocation Strategy
+                      - combobox [ref=f1e189]:
+                        - option "Reward First"
+                        - option "Sample First"
+                        - option "Balanced" [selected]
+                    - generic [ref=f1e190]:
+                      - text: Reserve % (0–0.5)
+                      - spinbutton "Reserve % (0–0.5)" [ref=f1e191]: "0.1"
+                    - generic [ref=f1e192]:
+                      - generic [ref=f1e193]: Timeline
+                      - generic [ref=f1e194]:
+                        - generic [ref=f1e195]:
+                          - text: Application Start
+                          - textbox "Application Start" [ref=f1e196]: 2026-08-28T00:20
+                        - generic [ref=f1e197]:
+                          - text: Application End
+                          - textbox "Application End" [ref=f1e198]: 2026-09-04T00:20
+                        - generic [ref=f1e199]:
+                          - text: Content Deadline
+                          - textbox "Content Deadline" [ref=f1e200]: 2026-09-11T00:20
+                        - generic [ref=f1e201]:
+                          - text: Go-Live Date
+                          - textbox "Go-Live Date" [ref=f1e202]: 2026-09-18T00:20
+                        - generic [ref=f1e203]:
+                          - text: Campaign End
+                          - textbox "Campaign End" [ref=f1e204]: 2026-09-25T00:20
+                - generic [ref=f1e205]:
+                  - heading "Content Requirements" [level=3] [ref=f1e209]
+                  - generic [ref=f1e210]:
+                    - generic [ref=f1e211]:
+                      - text: Content Formats *
+                      - generic [ref=f1e212]:
+                        - button "Short Video" [ref=f1e213]
+                        - button "Live Stream" [ref=f1e214]
+                        - button "Photo Post" [ref=f1e215]
+                        - button "Story" [ref=f1e216]
+                    - generic [ref=f1e217]:
+                      - text: Min Video Length (seconds)
+                      - spinbutton "Min Video Length (seconds)" [ref=f1e218]
+                    - generic [ref=f1e219]:
+                      - text: Required Hashtags (comma separated)
+                      - textbox "Required Hashtags (comma separated)" [ref=f1e220]:
+                        - /placeholder: "#TikTokShop, #YourBrand"
+                    - generic [ref=f1e221]:
+                      - generic [ref=f1e223] [cursor=pointer]:
+                        - checkbox "Must Mention Brand" [checked] [ref=f1e224]
+                        - text: Must Mention Brand
+                      - generic [ref=f1e226] [cursor=pointer]:
+                        - checkbox "Review Required" [checked] [ref=f1e227]
+                        - text: Review Required
+                      - generic [ref=f1e229] [cursor=pointer]:
+                        - checkbox "Ship Product" [ref=f1e230]
+                        - text: Ship Product
+                - generic [ref=f1e231]:
+                  - heading "Copy & Languages" [level=3] [ref=f1e236]
+                  - generic [ref=f1e237]:
+                    - generic [ref=f1e238]:
+                      - text: Target Languages *
+                      - generic [ref=f1e239]:
+                        - button "🇺🇸 English" [ref=f1e240]
+                        - button "🇮🇩 Bahasa Indonesia" [ref=f1e241]
+                        - button "🇹🇭 ภาษาไทย" [ref=f1e242]
+                        - button "🇻🇳 Tiếng Việt" [ref=f1e243]
+                        - button "🇲🇾 Bahasa Melayu" [ref=f1e244]
+                        - button "🇵🇭 Tagalog" [ref=f1e245]
+                        - button "🇲🇽 Español" [ref=f1e246]
+                        - button "🇧🇷 Português (BR)" [ref=f1e247]
+                    - generic [ref=f1e248]:
+                      - text: Tone
+                      - combobox [ref=f1e249]:
+                        - option "Playful 😄"
+                        - option "Professional 💼"
+                        - option "Urgent ⚡"
+                        - option "Luxury ✨"
+                        - option "Casual 👋" [selected]
+              - generic [ref=f1e250]:
+                - button "Save Draft" [ref=f1e251]
+                - button "Validate" [ref=f1e252]
+                - button "Publish" [ref=f1e253]
+  - region "Notifications alt+T"
+  - generic [ref=f1e261] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=f1e262]
+    - generic [ref=f1e328]:
+      - button "Open issues overlay" [ref=f1e329]:
+        - generic [ref=f1e330]:
+          - generic [ref=f1e331]: "0"
+          - generic [ref=f1e332]: "1"
+        - generic [ref=f1e333]: Issue
+      - button "Collapse issues badge" [ref=f1e334]
+  - alert [ref=f1e254]

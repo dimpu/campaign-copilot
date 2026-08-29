@@ -1,0 +1,21 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - heading "Campaign Copilot" [level=1] [ref=e11]
+      - paragraph [ref=e12]: AI-powered campaign configuration for TikTok Shop affiliate creators
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]: "1"
+        - generic [ref=e18]: "2"
+      - generic [ref=e19]:
+        - heading "Sign in to continue" [level=2] [ref=e20]
+        - paragraph [ref=e21]: Enter your email to receive a verification code
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - text: Email address
+          - textbox "Email address" [active] [ref=e28]:
+            - /placeholder: you@bytedance.com
+        - button "Send Code" [ref=e29]
+    - paragraph [ref=e30]: TikTok Shop · Creator Campaign Copilot · Internal Tool
+  - region "Notifications alt+T"
+  - alert [ref=e31]

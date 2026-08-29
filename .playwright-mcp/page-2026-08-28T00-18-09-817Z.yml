@@ -1,0 +1,29 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - heading "Campaign Copilot" [level=1] [ref=e11]
+      - paragraph [ref=e12]: AI-powered campaign configuration for TikTok Shop affiliate creators
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]: "1"
+        - generic [ref=e18]: "2"
+      - generic [ref=e19]:
+        - heading "Check your email" [level=2] [ref=e41]
+        - paragraph [ref=e21]: Enter the 6-digit code we sent you
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e45]: Verification code
+            - button "Change email" [ref=e46]
+          - paragraph [ref=e49]: We sent a 6-digit code to demo@bytedance.com
+          - textbox "Verification code" [active] [ref=e54]:
+            - /placeholder: "000000"
+        - paragraph [ref=e63]: "DEV MODE: Your code is 543798"
+        - button "Verify Code" [disabled]
+        - paragraph [ref=e64]:
+          - text: Didn't receive the code?
+          - button "Send again" [ref=e65]
+    - paragraph [ref=e30]: TikTok Shop · Creator Campaign Copilot · Internal Tool
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e37] [cursor=pointer]
+  - alert [ref=e31]
