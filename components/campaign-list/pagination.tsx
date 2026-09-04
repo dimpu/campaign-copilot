@@ -17,7 +17,10 @@ interface PaginationProps {
  * Generate the list of page numbers to show, with ellipsis gaps.
  * Always shows first, last, current, and neighbours; collapses the rest.
  */
-function getPageRange(current: number, totalPages: number): (number | "ellipsis")[] {
+function getPageRange(
+	current: number,
+	totalPages: number,
+): (number | "ellipsis")[] {
 	if (totalPages <= 7) {
 		return Array.from({ length: totalPages }, (_, i) => i + 1);
 	}
@@ -60,8 +63,7 @@ export function Pagination({
 
 	const linkBase =
 		"inline-flex items-center justify-center h-8 min-w-[2rem] rounded-md text-xs font-medium transition-colors";
-	const linkActive =
-		"gradient-primary text-white shadow-sm";
+	const linkActive = "gradient-primary text-white shadow-sm";
 	const linkHover =
 		"border border-border bg-transparent hover:bg-bg-card-hover text-text-primary";
 	const linkDisabled =
@@ -69,7 +71,6 @@ export function Pagination({
 
 	return (
 		<nav
-			role="navigation"
 			aria-label="Pagination"
 			className={cn("flex items-center justify-between", className)}
 		>
@@ -79,8 +80,7 @@ export function Pagination({
 				<span className="font-medium text-text-primary">
 					{(page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)}
 				</span>{" "}
-				of{" "}
-				<span className="font-medium text-text-primary">{total}</span>{" "}
+				of <span className="font-medium text-text-primary">{total}</span>{" "}
 				campaigns
 			</span>
 
@@ -107,14 +107,11 @@ export function Pagination({
 				)}
 
 				{/* Page numbers */}
-				{pages.map((p, idx) =>
+				{pages.map((p) =>
 					p === "ellipsis" ? (
 						<span
-							key={`ellipsis-${idx}`}
-							className={cn(
-								linkBase,
-								"w-8 text-text-muted",
-							)}
+							key={`ellipsis-${p}`}
+							className={cn(linkBase, "w-8 text-text-muted")}
 						>
 							<MoreHorizontal className="h-3.5 w-3.5" />
 						</span>
@@ -122,10 +119,7 @@ export function Pagination({
 						<a
 							key={p}
 							href={hrefBuilder(p)}
-							className={cn(
-								linkBase,
-								p === page ? linkActive : linkHover,
-							)}
+							className={cn(linkBase, p === page ? linkActive : linkHover)}
 							aria-label={`Go to page ${p}`}
 							aria-current={p === page ? "page" : undefined}
 						>

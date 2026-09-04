@@ -64,8 +64,7 @@ export const useDraftStore = create<DraftState>((set, get) => ({
 		const current = get().config;
 		// Detect whether the form was "empty" before this patch
 		const wasEmpty =
-			!current ||
-			(current.campaignName === "" && current.brandName === "");
+			!current || (current.campaignName === "" && current.brandName === "");
 
 		// Always merge on top of a complete base config so that form components
 		// and downstream code can safely read required fields (reward, budget, etc.)
@@ -107,7 +106,8 @@ export const useDraftStore = create<DraftState>((set, get) => ({
 	setStatus: (status) => set({ status }),
 	setStage: (stage) => set({ stage }),
 	setLoading: (isLoading) => set({ isLoading }),
-	togglePreviewCollapsed: () => set((s) => ({ previewCollapsed: !s.previewCollapsed })),
+	togglePreviewCollapsed: () =>
+		set((s) => ({ previewCollapsed: !s.previewCollapsed })),
 	setPreviewCollapsed: (collapsed) => set({ previewCollapsed: collapsed }),
 	reset: () =>
 		set({

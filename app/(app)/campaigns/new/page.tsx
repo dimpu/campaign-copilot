@@ -4,10 +4,10 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef } from "react";
 import {
+	type ImperativePanelHandle,
 	Panel,
 	PanelGroup,
 	PanelResizeHandle,
-	type ImperativePanelHandle,
 } from "react-resizable-panels";
 import { CampaignForm } from "@/components/campaign-form/campaign-form";
 import { LivePreviewPanel } from "@/components/campaign-preview/live-preview-panel";
