@@ -3,7 +3,7 @@ FROM oven/bun:1.2 AS deps
 WORKDIR /app
 
 COPY package.json bun.lock ./
-RUN bun install
+RUN bun install --ignore-scripts
 
 # ── Stage 2: Build ────────────────────────────────────────────────
 FROM oven/bun:1.2 AS builder
