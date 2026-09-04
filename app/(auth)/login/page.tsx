@@ -90,7 +90,7 @@ export default function LoginPage() {
 
 				{/* Footer */}
 				<p className="mt-6 text-center text-xs text-text-muted">
-					TikTok Shop &middot; Creator Campaign Copilot &middot; Internal Tool
+					Creator Campaign Copilot
 				</p>
 			</div>
 		</div>

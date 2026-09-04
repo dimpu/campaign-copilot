@@ -21,7 +21,7 @@ export async function generateOtp(
 
 	return {
 		code,
-		devCode: process.env.NODE_ENV === "development" ? code : undefined,
+		devCode: process.env.NODE_ENV === "development" || process.env.IS_DEMO_MODE === "true" ? code : undefined,
 	};
 }
 
