@@ -11,6 +11,7 @@ services:
       - AUTH_SECRET=${AUTH_SECRET:-change-me-in-production}
       - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
       - AUTH_URL=${AUTH_URL:-http://localhost:3000}
+      - IS_DEMO_MODE=true
       # Uncomment and set for real LLM:
       # - OPENAI_API_KEY=sk-...
       # - LLMBOX_API_KEY=...
