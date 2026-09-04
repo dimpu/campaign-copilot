@@ -30,14 +30,14 @@ export function MessageInput({
 	const adjustHeight = useCallback(() => {
 		const el = textareaRef.current;
 		if (!el) return;
-		el.style.height = "0";
+		el.style.height = "auto";
 		const scrollHeight = el.scrollHeight;
-		el.style.height = `${Math.min(scrollHeight, 160)}px`;
+		el.style.height = `${Math.min(scrollHeight, 200)}px`;
 	}, []);
 
 	useEffect(() => {
 		adjustHeight();
-	}, [adjustHeight]);
+	}, [adjustHeight, value]);
 
 	// ⌘K shortcut to focus
 	useEffect(() => {
@@ -63,6 +63,8 @@ export function MessageInput({
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		onChange(e.target.value);
+		// Adjust height on next frame so the new value is rendered first
+		requestAnimationFrame(adjustHeight);
 	};
 
 	const isDisabled = disabled || isLoading;
@@ -90,13 +92,13 @@ export function MessageInput({
 				rows={1}
 				className={cn(
 					"flex-1 resize-none bg-transparent px-1 py-1.5",
-					"text-sm text-text-primary",
+					"text-sm text-text-primary leading-6",
 					"placeholder:text-text-muted",
 					"focus:outline-none",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-					"max-h-40 overflow-y-auto",
+					"overflow-y-auto",
 				)}
-				style={{ minHeight: "24px" }}
+				style={{ maxHeight: "200px" }}
 			/>
 
 			<button
