@@ -1,21 +1,23 @@
-# ── Stage 1: Install dependencies ─────────────────────────────────
+# ── Stage 1: Install dependencies using Bun (fast) ──────────────
 FROM oven/bun:1.2 AS deps
 WORKDIR /app
 
 COPY package.json bun.lock ./
 RUN bun install --ignore-scripts
 
-# ── Stage 2: Build ────────────────────────────────────────────────
-FROM oven/bun:1.2 AS builder
+# ── Stage 2: Build with Node (Next.js 16 / Turbopack requires Node) ──
+FROM node:22-slim AS builder
 WORKDIR /app
+
+ENV NEXT_TELEMETRY_DISABLED=1
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN bun run build
+RUN npx next build
 
 # ── Stage 3: Production (slim) ───────────────────────────────────
-FROM oven/bun:1.2-slim AS runner
+FROM node:22-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -23,6 +25,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
+
+# Bun is used only for migrate/seed tooling (bundled -> no esbuild postinstall issues).
+# The app itself runs via the standalone Node server.
+RUN npm install -g bun
 
 # Standalone Next.js server (includes only needed deps)
 COPY --from=builder /app/.next/standalone ./

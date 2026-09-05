@@ -17,5 +17,5 @@ else
   echo "✅ Database found at $DB_PATH — skipping seed."
 fi
 
-# Start Next.js
-exec bun run start
+# Start the standalone Next.js server (Node, not Bun)
+exec node server.js
