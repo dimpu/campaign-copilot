@@ -10,8 +10,8 @@ fi
 # Run migrations if DB doesn't exist yet
 if [ ! -f "$DB_PATH" ]; then
   echo "⚡ No database found at $DB_PATH — running migrations + seed..."
-  bunx drizzle-kit push
-  bun run db:seed
+  node scripts/apply-migrations.js
+  bun scripts/seed.ts
   echo "✅ Database ready."
 else
   echo "✅ Database found at $DB_PATH — skipping seed."

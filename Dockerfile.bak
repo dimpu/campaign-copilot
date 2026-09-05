@@ -33,6 +33,7 @@ RUN npm install -g bun
 # Standalone Next.js server (includes only needed deps)
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 # Drizzle kit + schema for migrations at startup
 COPY --from=builder /app/drizzle ./drizzle
@@ -42,12 +43,7 @@ COPY --from=builder /app/package.json ./package.json
 
 # Seed script + its dependency (faker)
 COPY --from=builder /app/scripts/seed.ts ./scripts/seed.ts
-COPY --from=builder /app/scripts/apply-migrations.js ./scripts/apply-migrations.js
 COPY --from=builder /app/node_modules/@faker-js ./node_modules/@faker-js
-COPY --from=builder /app/node_modules/drizzle-orm ./node_modules/drizzle-orm
-COPY --from=builder /app/node_modules/tailwind-merge ./node_modules/tailwind-merge
-COPY --from=builder /app/node_modules/clsx ./node_modules/clsx
-COPY --from=builder /app/lib/utils.ts ./lib/utils.ts
 
 # Entrypoint that auto-migrates + seeds on first run
 COPY --from=builder /app/docker-entrypoint.sh ./docker-entrypoint.sh
